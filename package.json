@@ -1,6 +1,6 @@
 {
   "name": "@audibene/ta-options",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "agnostic unopinionated featureflag library that can also access an api like launchdarkly",
   "main": "./lib/index.js",
   "files": [
