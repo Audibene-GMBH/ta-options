@@ -20,12 +20,13 @@
   },
   "homepage": "https://github.com/Audibene-GMBH/ta-options#readme",
   "dependencies": {
-    "jest": "^26.6.3"
+    "launchdarkly-js-client-sdk": "^2.19.0"
   },
   "peerDependencies": {},
   "devDependencies": {
     "commitizen": "^4.2.2",
-    "cz-conventional-changelog": "^3.3.0"
+    "cz-conventional-changelog": "^3.3.0",
+    "jest": "^26.6.3"
   },
   "config": {
     "commitizen": {
