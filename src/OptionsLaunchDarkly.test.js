@@ -6,6 +6,8 @@ const wait = milliseconds => {
 
 describe('OptionsLaunchDarkly', () => {
   test('allFlags', async () => {
+    expect(theOptions.ldclient).toBeDefined()
+
     await wait(500)
     if (!theOptions.allFlags) await wait(1000)
     expect(theOptions.allFlags).toBeDefined()

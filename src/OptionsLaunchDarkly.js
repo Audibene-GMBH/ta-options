@@ -1,6 +1,8 @@
 import { Options } from './Options'
 import * as LDClient from 'launchdarkly-js-client-sdk'
 
+require('dotenv').config({path:__dirname+'/../.env'})
+
 const config = {
   id: process.env.REACT_APP_LAUNCHDARKLY_CLIENT_ID,
   user: {
@@ -10,7 +12,7 @@ const config = {
     custom: { groups: 'testing' },
   },
   // eslint-disable-next-line no-console
-  log: console.log,
+  log: console.log, // can be overloaded by the consumer below with props.log
 }
 
 // console.log(config)
@@ -18,7 +20,8 @@ const config = {
 export class OptionsLaunchDarkly extends Options {
   constructor(props = {}) {
     super(props)
-    config.log = props.log || config.log
+    this.log = props.log || config.log
+    config.user = props.user || config.user
     const { id, user } = config
     if (!user || !id) return
     this.ldclient = LDClient.initialize(id, user)
@@ -29,7 +32,7 @@ export class OptionsLaunchDarkly extends Options {
   handleLaunchDarklyUpdates = () => {
     if (!this.ldclient) return
     this.allFlags = this.ldclient.allFlags()
-    config.log({ allFlags: this.allFlags })
+    this.log({ allFlags: this.allFlags })
     this.update(this.allFlags) // this may trump query strings
     this.addQueryString() // so we have to add them back
   }
