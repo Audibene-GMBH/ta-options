@@ -4,7 +4,7 @@
   "description": "agnostic unopinionated featureflag library that can also access an api like launchdarkly",
   "main": "./lib/index.js",
   "files": [
-    "/src"
+    "/lib"
   ],
   "scripts": {
     "test": "jest --collect-coverage --forceExit",
