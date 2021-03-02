@@ -7,4 +7,4 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
-* template to publish npm package to code artifact ([0943700](https://github.com/Audibene-GMBH/ta-npm-package-template/commit/094370041265ed1d9641c30c4a064bb0639d9d99))
+* template to publish npm package to code artifact ([0943700](https://github.com/Audibene-GMBH/ta-options/commit/094370041265ed1d9641c30c4a064bb0639d9d99))
