@@ -1,4 +1,5 @@
 import theOptions from './OptionsLaunchDarkly'
+import "regenerator-runtime/runtime.js"
 
 const wait = milliseconds => {
   return new Promise(resolve => setTimeout(resolve, milliseconds))

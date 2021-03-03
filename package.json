@@ -22,7 +22,8 @@
   "homepage": "https://github.com/Audibene-GMBH/ta-options#readme",
   "dependencies": {
     "dotenv": "^8.2.0",
-    "launchdarkly-js-client-sdk": "^2.19.0"
+    "launchdarkly-js-client-sdk": "^2.19.0",
+    "regenerator-runtime": "^0.13.7"
   },
   "peerDependencies": {},
   "devDependencies": {

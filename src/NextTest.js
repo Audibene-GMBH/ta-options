@@ -1,3 +1,5 @@
+import "regenerator-runtime/runtime.js"
+
 /*
   runs test functions in a sequence in spite of jest's asynchronousity, use sparingly
   useful for singletons and external libraries or any external thing where the state can be affected by concurrent tests
