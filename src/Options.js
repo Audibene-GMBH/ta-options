@@ -28,82 +28,91 @@ const globalThis = window || global
 
 export class Options {
   constructor(props = {}) {
-    this.config = {...this.config, ...props.config}
-    this.init(props)
+    this.config = { ...this.config, ...props.config };
+    this.init(props);
   }
 
-  config = { options: {} }
+  config = { options: {} };
 
   init = (props = {}) => {
-    const priorUpdates = this.read()
-    this.write({ ...this.config.options, ...process.env, ...props, ...priorUpdates })
-    this.addQueryString()
-  }
+    const priorUpdates = this.read();
+    this.write({
+      ...this.config.options,
+      ...process.env,
+      ...props,
+      ...priorUpdates,
+    });
+    this.addQueryString();
+  };
 
-  set = options => {
-    this.list = options || {}
-  }
+  set = (options) => {
+    this.list = options || {};
+  };
 
-  update = options => {
-    this.write({ ...this.list, ...options })
-    this.callbacks.forEach(func => {
-      func(this.list)
-    })
-  }
+  update = (options) => {
+    this.write({ ...this.list, ...options });
+    this.callbacks.forEach((func) => {
+      func(this.list);
+    });
+  };
 
-  callbacks = []
-  onChange = func => {
-    if (typeof func !== 'function') return
-    if (this.callbacks.indexOf(func) > -1) return
-    this.callbacks.push(func)
-  }
+  callbacks = [];
+  onChange = (func) => {
+    if (typeof func !== "function") return;
+    if (this.callbacks.indexOf(func) > -1) return;
+    this.callbacks.push(func);
+  };
 
-  write = options => {
-    this.list = options || this.list
-    if (!this.list) return
+  write = (options) => {
+    this.list = options || this.list;
+    if (!this.list) return;
     if (globalThis.sessionStorage)
-      globalThis.sessionStorage.setItem('options', JSON.stringify(this.list))
-    else globalThis.options = this.list
-  }
+      globalThis.sessionStorage.setItem("options", JSON.stringify(this.list));
+    else globalThis.options = this.list;
+  };
 
   read = () => {
-    let temp = globalThis.sessionStorage?.getItem('options')
-    if (temp) temp = JSON.parse(temp)
-    this.list = temp || globalThis.options || this.list || {}
-    return this.list
-  }
+    try {
+      let temp = globalThis.sessionStorage?.getItem("options");
+      if (temp) temp = JSON.parse(temp);
+      this.list = temp || globalThis.options || this.list || {};
+      return this.list;
+    } catch {
+      return globalThis.options || this.list || {};
+    }
+  };
 
-  addQueryString = qs => {
-    if (this.list.addQueryString === false) return
-    qs = qs || window.location?.search
-    if (qs[0] === '?') qs = qs.slice(1)
-    const params = querystring.parse(qs)
+  addQueryString = (qs) => {
+    if (this.list.addQueryString === false) return;
+    qs = qs || window.location?.search;
+    if (qs[0] === "?") qs = qs.slice(1);
+    const params = querystring.parse(qs);
 
     // parse the options param
     if (params.options) {
-      let list = params.options
-      if (!Array.isArray(list)) list = [list] // ensure list is an array
-      list.forEach(options => {
-        options.split(',').forEach(word => {
-          word = word.trim()
-          if (word[0] === '-') {
-            params[word.slice(1)] = false
-          } else if (word[0] === '+') {
-            params[word.slice(1)] = true
-          } else params[word] = true
-        })
-      })
-      delete params.options
+      let list = params.options;
+      if (!Array.isArray(list)) list = [list]; // ensure list is an array
+      list.forEach((options) => {
+        options.split(",").forEach((word) => {
+          word = word.trim();
+          if (word[0] === "-") {
+            params[word.slice(1)] = false;
+          } else if (word[0] === "+") {
+            params[word.slice(1)] = true;
+          } else params[word] = true;
+        });
+      });
+      delete params.options;
     }
 
     // deduplicate params aka an array per param
-    Object.keys(params).forEach(key => {
-      const p = params[key]
-      if (Array.isArray(p)) params[key] = p[p.length - 1] // retain the last one only
-    })
+    Object.keys(params).forEach((key) => {
+      const p = params[key];
+      if (Array.isArray(p)) params[key] = p[p.length - 1]; // retain the last one only
+    });
 
-    this.update(params)
-  }
+    this.update(params);
+  };
 }
 
 export const theOptions = new Options() // singleton
