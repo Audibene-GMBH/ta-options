@@ -55,7 +55,6 @@ export class Options {
   onChange = func => {
     if (typeof func !== 'function') return
     if (this.callbacks.indexOf(func) > -1) return
-    this.lastCallback = func
     this.callbacks.push(func)
   }
 
