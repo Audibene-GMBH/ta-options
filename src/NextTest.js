@@ -30,23 +30,24 @@ import "regenerator-runtime/runtime.js"
 
   */
 
-export const wait = milliseconds => {
+export function wait(milliseconds){
   return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
 
 export default class NextTest {
   constructor(ms = 0) {
     this.ms = ms
+    this.count = 0 // total tests
+    this.index = 0 // current test
   }
-  count = 0 // total tests
-  index = 0 // current test
-  doNext = async (func, ms = this.ms) => {
+  async doNext(func, ms){
+    ms = ms || this.ms
     const count = ++this.count
     while (this.index < count) await wait(ms) // surrender this thread
     this.index++
     return func()
   }
-  start = () => this.index++ // starts the queue
+  start(){ this.index++ } // starts the queue
 }
 
 // copy this code into your block if you want to avoid collisions with other sequential tests

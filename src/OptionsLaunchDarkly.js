@@ -29,7 +29,7 @@ export class OptionsLaunchDarkly extends Options {
     this.ldclient.on('change', this.handleLaunchDarklyUpdates)
   }
 
-  handleLaunchDarklyUpdates = () => {
+  handleLaunchDarklyUpdates() {
     if (!this.ldclient) return
     this.allFlags = this.ldclient.allFlags()
     this.log({ allFlags: this.allFlags })
@@ -38,5 +38,4 @@ export class OptionsLaunchDarkly extends Options {
   }
 }
 
-export const theOptionsLaunchDarkly = new OptionsLaunchDarkly() // singleton
-export default theOptionsLaunchDarkly
+

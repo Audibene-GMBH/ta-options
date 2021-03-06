@@ -30,11 +30,11 @@ export class Options {
   constructor(props = {}) {
     this.config = { ...this.config, ...props.config };
     this.init(props);
+    this.config = { options: {} }
+    this.callbacks = []
   }
 
-  config = { options: {} };
-
-  init = (props = {}) => {
+  init(props = {}){
     const priorUpdates = this.read();
     this.write({
       ...this.config.options,
@@ -45,25 +45,24 @@ export class Options {
     this.addQueryString();
   };
 
-  set = (options) => {
+  set(options){
     this.list = options || {};
   };
 
-  update = (options) => {
+  update(options){
     this.write({ ...this.list, ...options });
     this.callbacks.forEach((func) => {
       func(this.list);
     });
   };
 
-  callbacks = [];
-  onChange = (func) => {
+  onChange(func){
     if (typeof func !== "function") return;
     if (this.callbacks.indexOf(func) > -1) return;
     this.callbacks.push(func);
   };
 
-  write = (options) => {
+  write(options){
     this.list = options || this.list;
     if (!this.list) return;
     if (globalThis.sessionStorage)
@@ -71,7 +70,7 @@ export class Options {
     else globalThis.options = this.list;
   };
 
-  read = () => {
+  read(){
     try {
       let temp = globalThis.sessionStorage?.getItem("options");
       if (temp) temp = JSON.parse(temp);
@@ -82,7 +81,7 @@ export class Options {
     }
   };
 
-  addQueryString = (qs) => {
+  addQueryString(qs){
     if (this.list.addQueryString === false) return;
     qs = qs || window.location?.search;
     if (qs[0] === "?") qs = qs.slice(1);
@@ -115,5 +114,3 @@ export class Options {
   };
 }
 
-export const theOptions = new Options() // singleton
-export default theOptions
